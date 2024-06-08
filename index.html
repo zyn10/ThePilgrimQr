@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-weight: bold;"">Get QR Code's Instantly</h1>
+
+        <form id="qr-form">
+            <label for="text">Enter Text/URL:</label>
+            <textarea id="text" name="text" required></textarea>
+            <button type="submit">Generate QR Code</button>
+        </form>
+        <div id="qr-result"></div>
+        <div id="powered-by">
+            <p>Powered by <a href="https://thepilgrim.co" target="_blank">thepilgrim.co</a> and <a href="https://islamiclandmarks.com" target="_blank">Islamiclandmarks.com</a></p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
