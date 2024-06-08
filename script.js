@@ -28,14 +28,9 @@ document.getElementById('qr-form').addEventListener('submit', function (e) {
         const downloadButton = document.createElement('a');
         downloadButton.id = 'download-button';
         downloadButton.href = qr.toDataURL();
-        downloadButton.download = filename; // Set the filename
+        downloadButton.download = filename;
         downloadButton.textContent = 'Download QR Code';
-        downloadButton.style.display = 'none'; // Hide the button initially
+        downloadButton.textContent = 'Download';
         qrResult.appendChild(downloadButton);
-
-        // Show the download button after the image is loaded
-        img.onload = function () {
-            downloadButton.style.display = 'block';
-        };
     }
 });
