@@ -19,13 +19,17 @@ document.getElementById('qr-form').addEventListener('submit', function (e) {
         img.alt = 'QR Code';
         qrResult.appendChild(img);
 
+        // Extract filename from the URL
+        const url = new URL(text);
+        const pathnameParts = url.pathname.split('/');
+        const filename = pathnameParts[pathnameParts.length - 1].replace(/\//g, '-') + '.png';
+
         // Create the download button
         const downloadButton = document.createElement('a');
         downloadButton.id = 'download-button';
         downloadButton.href = qr.toDataURL();
-        downloadButton.download = 'qr_code.png';
+        downloadButton.download = filename; // Set the filename
         downloadButton.textContent = 'Download QR Code';
-        downloadButton.textContent = 'Download';
         qrResult.appendChild(downloadButton);
     }
 });
