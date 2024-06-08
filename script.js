@@ -1,42 +1,63 @@
 document.getElementById('qr-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    const text = document.getElementById('text').value;// Clean the input
+    const text = document.getElementById('text').value;
     const qrResult = document.getElementById('qr-result');
     qrResult.innerHTML = '';
 
     if (text) {
+        const qrSize = 600; // High resolution for the QR code
+        const padding = 50; // Padding size in pixels
+
         const qr = new QRious({
             value: text,
-            size: 150,
+            size: qrSize,
             background: '#fff',
             foreground: '#000',
             level: 'H'
         });
 
-        // Create the image element
-        const img = document.createElement('img');
+        // Create a canvas to add padding
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = qrSize + padding * 2;
+        canvas.height = qrSize + padding * 2;
+
+        // Fill the canvas with white background
+        context.fillStyle = '#fff';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the QR code onto the canvas with padding
+        const img = new Image();
         img.src = qr.toDataURL();
-        img.alt = 'QR Code';
-        img.style.width = '170px';  // Ensure the image is 150px wide
-        img.style.height = '170px'; // Ensure the image is 150px high
-        qrResult.appendChild(img);
+        img.onload = () => {
+            context.drawImage(img, padding, padding, qrSize, qrSize);
 
-        // Extract filename from the URL or use a default name
-        const url = new URL(text);
-        let pathname = url.pathname;
-        // Remove trailing slashes if any
-        pathname = pathname.replace(/\/+$/, "");
-        const lastSlashIndex = pathname.lastIndexOf('/');
-        const filename = pathname.substr(lastSlashIndex + 1) + '.png';
+            // Create an image element to display the padded QR code
+            const paddedImg = document.createElement('img');
+            paddedImg.src = canvas.toDataURL();
+            paddedImg.alt = 'QR Code with Padding';
+            paddedImg.style.width = '170px'; // Display size
+            paddedImg.style.height = '170px'; // Display size
+            qrResult.appendChild(paddedImg);
 
-        // Use html2canvas to capture the QR code with styles
-        html2canvas(img, { width: 190, height: 190 }).then(canvas => {
-            const dataURL = canvas.toDataURL();
+            // Extract filename from the URL or use a default name
+            let filename = 'qr-code.png';
+            try {
+                const url = new URL(text);
+                let pathname = url.pathname;
+                pathname = pathname.replace(/\/+$/, ""); // Remove trailing slashes if any
+                const lastSlashIndex = pathname.lastIndexOf('/');
+                filename = pathname.substr(lastSlashIndex + 1) + '.png';
+            } catch (e) {
+                console.error("Invalid URL format");
+            }
+
+            // Create the download button with the padded image data URL
             const downloadButton = document.createElement('a');
-            downloadButton.href = dataURL;
+            downloadButton.href = canvas.toDataURL();
             downloadButton.download = filename;
             downloadButton.textContent = 'Download QR Code';
             qrResult.appendChild(downloadButton);
-        });
+        };
     }
 });
