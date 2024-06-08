@@ -21,9 +21,12 @@ document.getElementById('qr-form').addEventListener('submit', function (e) {
 
         // Extract filename from the URL
         const url = new URL(text);
-        const pathnameParts = url.pathname.split('/');
-        const filename = pathnameParts[pathnameParts.length - 1].replace(/\//g, '-') + '.png';
-
+        let pathname = url.pathname;
+        // Remove trailing slashes if any
+        pathname = pathname.replace(/\/+$/, "");
+        const lastSlashIndex = pathname.lastIndexOf('/');
+        const filename = pathname.substr(lastSlashIndex + 1) + '.png';
+        
         // Create the download button
         const downloadButton = document.createElement('a');
         downloadButton.id = 'download-button';
