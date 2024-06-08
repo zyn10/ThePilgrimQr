@@ -30,6 +30,12 @@ document.getElementById('qr-form').addEventListener('submit', function (e) {
         downloadButton.href = qr.toDataURL();
         downloadButton.download = filename; // Set the filename
         downloadButton.textContent = 'Download QR Code';
+        downloadButton.style.display = 'none'; // Hide the button initially
         qrResult.appendChild(downloadButton);
+
+        // Show the download button after the image is loaded
+        img.onload = function () {
+            downloadButton.style.display = 'block';
+        };
     }
 });
