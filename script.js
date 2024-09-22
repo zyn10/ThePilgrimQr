@@ -45,7 +45,7 @@ document.getElementById('qr-form').addEventListener('submit', function (e) {
             try {
                 const url = new URL(text);
                 let pathname = url.pathname;
-                pathname = pathname.replace(/\/+$/, ""); // Remove trailing slashes if any
+                pathname = pathname.replace(/\/+$/, ""); // Remove trailing slashes if any exist
                 const lastSlashIndex = pathname.lastIndexOf('/');
                 filename = pathname.substr(lastSlashIndex + 1) + '.png';
             } catch (e) {
